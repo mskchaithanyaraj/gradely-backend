@@ -19,6 +19,10 @@ def login_and_fetch_data(username, password):
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
+    options.binary_location = os.getenv("GOOGLE_CHROME_BIN", "/opt/render/project/.apt/usr/bin/google-chrome")
+
+    print("Chrome binary path:", os.path.exists(options.binary_location))
+
 
     driver = uc.Chrome(options=options)
 
