@@ -25,6 +25,7 @@ def login_and_fetch_data(username, password):
         options.binary_location = CHROME_BIN_PATH
 
     print("Chrome binary exists:", os.path.exists(CHROME_BIN_PATH))
+    driver = None
 
     try:
         driver = uc.Chrome(options=options)
@@ -71,4 +72,5 @@ def login_and_fetch_data(username, password):
             "stack": traceback.format_exc()
         }
     finally:
-        driver.quit()
+        if driver:
+           driver.quit()
