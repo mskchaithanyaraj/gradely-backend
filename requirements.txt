@@ -1,7 +1,7 @@
 flask
 gunicorn
 beautifulsoup4
-flask_cors
+flask-cors
 python-dotenv
 waitress
 selenium==4.0.0
