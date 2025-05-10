@@ -31,7 +31,7 @@ def login_and_fetch_data(username, password):
     driver = None
 
     try:
-        driver = uc.Chrome(version_main=117, options=options, browser_executable_path=CHROME_BIN_PATH)
+        driver = uc.Chrome(options=options, browser_executable_path=CHROME_BIN_PATH)
         logging.info("Chrome driver launched successfully.")
 
         driver.get("https://gecgudlavalleruonlinepayments.com/")
