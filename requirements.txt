@@ -1,8 +1,8 @@
 flask
-selenium
 gunicorn
-undetected-chromedriver
 beautifulsoup4
 flask_cors
 python-dotenv
 waitress
+selenium==4.0.0
+undetected-chromedriver==3.1.0
