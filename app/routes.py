@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from . import app
 from .scraper import login_and_fetch_data
+import socket
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -13,3 +14,12 @@ def login():
 @app.route('/api/hello')
 def hello_world():
     return 'Hello from Flask!'
+
+
+@app.route("/api/debug-dns")
+def debug_dns():
+    try:
+        ip = socket.gethostbyname("gecgudlavalleruonlinepayments.com")
+        return jsonify({"status": "success", "ip": ip})
+    except Exception as e:
+        return jsonify({"status": "error", "error": str(e)})
