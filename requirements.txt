@@ -1,6 +1,7 @@
-selenium
-beautifulsoup4
-gunicorn
 flask
 flask_cors
+gunicorn
+selenium
+beautifulsoup4
+undetected-chromedriver
 python-dotenv
