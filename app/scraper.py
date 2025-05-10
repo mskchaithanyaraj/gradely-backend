@@ -4,7 +4,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-import os, time, traceback
+import os, time, traceback, logging
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Load environment variables
 is_render = os.getenv("RENDER", "false").lower() == "true"
@@ -24,11 +27,13 @@ def login_and_fetch_data(username, password):
     if is_render:
         options.binary_location = CHROME_BIN_PATH
 
-    print("Chrome binary exists:", os.path.exists(CHROME_BIN_PATH))
+    logging.info(f"Chrome binary exists: {os.path.exists(CHROME_BIN_PATH)}")
     driver = None
 
     try:
         driver = uc.Chrome(version_main=117, options=options, browser_executable_path=CHROME_BIN_PATH)
+        logging.info("Chrome driver launched successfully.")
+
         driver.get("https://gecgudlavalleruonlinepayments.com/")
         time.sleep(1)
 
@@ -66,11 +71,20 @@ def login_and_fetch_data(username, password):
         }
 
     except Exception as e:
+        logging.error(f"Error occurred: {e}")
+        logging.debug(f"Stack trace: {traceback.format_exc()}")
         return {
             "status": "error",
             "message": str(e),
             "stack": traceback.format_exc()
         }
+
     finally:
         if driver:
-           driver.quit()
+            try:
+                logging.info("Quitting driver and stopping service.")
+                driver.quit()  # Normal quit
+                if hasattr(driver, 'service'):
+                    driver.service.stop()  # Explicitly stop the service if available
+            except Exception as quit_error:
+                logging.error(f"Error while quitting driver: {quit_error}")
