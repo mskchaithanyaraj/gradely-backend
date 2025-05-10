@@ -1,7 +1,8 @@
 flask
-flask_cors
-gunicorn
 selenium
-beautifulsoup4
+gunicorn
 undetected-chromedriver
+beautifulsoup4
+flask_cors
 python-dotenv
+waitress
