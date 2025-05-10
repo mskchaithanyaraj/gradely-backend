@@ -7,13 +7,22 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
 import traceback
+from dotenv import load_dotenv
+import os
+
+# for Render.com deployment and local development
+is_render = os.getenv("RENDER", "false").lower() == "true"
+env_file = ".env.production" if is_render else ".env.development"
+load_dotenv(env_file)
+
+driver_path = os.getenv("CHROMEDRIVER_PATH")
 
 def login_and_fetch_data(username, password):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
 
-    service = Service(executable_path="C:/Selenium Drivers/chromedriver-win64/chromedriver.exe")
+    service = Service(executable_path=driver_path)
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
