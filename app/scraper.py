@@ -14,7 +14,7 @@ load_dotenv(env_file)
 
 def login_and_fetch_data(username, password):
     options = uc.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
