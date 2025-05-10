@@ -3,30 +3,31 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-import time
-import traceback
 from dotenv import load_dotenv
-import os
+import os, time, traceback
 
+# Load environment variables
 is_render = os.getenv("RENDER", "false").lower() == "true"
 env_file = ".env.production" if is_render else ".env.development"
 load_dotenv(env_file)
 
+CHROME_BIN_PATH = "/opt/render/project/src/.chrome/chromium/chrome"
+
 def login_and_fetch_data(username, password):
     options = uc.ChromeOptions()
-    options.add_argument("--headless=new")
+    options.headless = True
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
-    options.binary_location = "/usr/bin/google-chrome"
 
-    print("Chrome binary path:", os.path.exists("/usr/bin/google-chrome"))
+    if is_render:
+        options.binary_location = CHROME_BIN_PATH
 
-
-    driver = uc.Chrome(options=options)
+    print("Chrome binary exists:", os.path.exists(CHROME_BIN_PATH))
 
     try:
+        driver = uc.Chrome(options=options)
         driver.get("https://gecgudlavalleruonlinepayments.com/")
         time.sleep(1)
 
@@ -38,6 +39,7 @@ def login_and_fetch_data(username, password):
         driver.get("https://gecgudlavalleruonlinepayments.com/Academics/StudentProfile.aspx")
         time.sleep(3)
 
+        # Switch to CAPTCHA iframe if available
         try:
             WebDriverWait(driver, 5).until(
                 EC.frame_to_be_available_and_switch_to_it((By.ID, "capIframeId"))
